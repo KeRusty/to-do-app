@@ -62,7 +62,7 @@ const Landing: React.FC<LandingProps> = (props) => {
 
             </div>
 
-            {data &&
+            {data.length > 0 &&
                 <div>
                     <TaskTable data={data} />
                 </div>

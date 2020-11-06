@@ -1,13 +1,28 @@
-import React, { useState } from "react";
-import { Table, Tag, Radio, Space } from 'antd';
+import React, { useState, useCallback, useEffect } from "react";
+import { Table, Button } from 'antd';
+import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 
 import "./TaskTable.less";
 
 const TaskTable: React.FC<TaskTableProps> = (props) => {
 
-    const { data } = props;
+    //const { data } = props;
 
-    console.log(data)
+    const [data, setData] = useState(props);
+
+    useEffect(() => {
+
+        setData(props)
+
+    }, [data, props]);
+
+    const onDelete = useCallback((index: any) => {
+
+        const spliced = data.data.splice(index, 1);
+
+        setData(spliced)
+
+    }, [data]);
 
     const columns = [
         {
@@ -24,11 +39,20 @@ const TaskTable: React.FC<TaskTableProps> = (props) => {
         {
             title: 'Action',
             key: 'action',
-            render: (text: any, record: any) => (
-                <Space size="middle">
-                    <a>Done</a>
-                    <a>Delete</a>
-                </Space>
+            render: (text: any, record: any, index: any) => (
+                <>
+                    <Button
+                        icon={<CheckOutlined />}
+                        shape={"circle"}
+                        type={"primary"}
+                        style={{ marginRight: 8 }}
+                    />
+                    <Button
+                        icon={<CloseOutlined />}
+                        shape={"circle"}
+                        onClick={() => onDelete(index)}
+                    />
+                </>
             ),
         },
     ];
@@ -40,8 +64,9 @@ const TaskTable: React.FC<TaskTableProps> = (props) => {
             <Table
                 columns={columns}
                 pagination={{ position: ["bottomRight"] }}
-                dataSource={data}
+                dataSource={data.data}
             />
+
 
         </div>
 

@@ -1,37 +1,19 @@
-import React from "react";
-import {
-    Form,
-    Select,
-    Input,
-    Switch,
-    Slider,
-    Button,
-} from 'antd';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import React, { useState } from "react";
+import { Form, Input, Button, Radio } from 'antd';
+
+import TaskTable from '../../Components/TaskTable/TaskTable';
 
 import "./Landing.less";
 
 const Landing: React.FC<LandingProps> = (props) => {
 
-    const { Option } = Select;
+    const [option, setOption] = useState('important');
 
-    const formItemLayout = {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 14 },
-    };
-
-    const normFile = (e: any) => {
-        console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-            return e;
-        }
-        return e && e.fileList;
-    };
+    const [data, setData] = useState<LandingProps[]>([]);
 
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+        setData([...data, values]);
     };
-
 
     return (
 
@@ -39,7 +21,7 @@ const Landing: React.FC<LandingProps> = (props) => {
 
             <div className="heading-container">
 
-                <h1 className="heading-text">To Do</h1>
+                <h1 className="heading-text">To Do List</h1>
 
             </div>
 
@@ -64,6 +46,13 @@ const Landing: React.FC<LandingProps> = (props) => {
 
                     </Form.Item>
 
+                    <Form.Item name="important">
+                        <Radio.Group value={option}>
+                            <Radio.Button value="Important">Important</Radio.Button>
+                            <Radio.Button value="Take My Time">Take My Time</Radio.Button>
+                        </Radio.Group>
+                    </Form.Item>
+
                     <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
 
                         <Button type="primary" htmlType="submit">Add Task</Button>
@@ -72,6 +61,12 @@ const Landing: React.FC<LandingProps> = (props) => {
                 </Form>
 
             </div>
+
+            {data &&
+                <div>
+                    <TaskTable data={data} />
+                </div>
+            }
 
         </div>
 

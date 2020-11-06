@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Radio } from 'antd';
+import { Form, Input, Button, Radio, Typography } from 'antd';
 
 import TaskTable from '../../Components/TaskTable/TaskTable';
 
@@ -8,6 +8,8 @@ import "./Landing.less";
 const Landing: React.FC<LandingProps> = (props) => {
 
     const [option, setOption] = useState('important');
+
+    const { Title } = Typography;
 
     const [data, setData] = useState<LandingProps[]>([]);
 
@@ -21,7 +23,7 @@ const Landing: React.FC<LandingProps> = (props) => {
 
             <div className="heading-container">
 
-                <h1 className="heading-text">To Do List</h1>
+                <Title level={2} >To Do List</Title>
 
             </div>
 
@@ -55,7 +57,7 @@ const Landing: React.FC<LandingProps> = (props) => {
 
                     <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
 
-                        <Button type="primary" htmlType="submit">Add Task</Button>
+                        <Button type="primary" htmlType="submit" shape="round">Add Task</Button>
 
                     </Form.Item>
                 </Form>
